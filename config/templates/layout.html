@@ -88,7 +88,7 @@
                                 </svg>
                             </a>
                             <a class="p-2 text-dark" href="#">
-                                Profile
+                                {% if user.firstname %}{{ user.first_name }}{% else%}{{ user.first_name }}{% endif %}
                             </a>
                         </nav>
                         {% comment %} <a class="btn btn-outline-primary" href="#">Sign up</a> {% endcomment %}
@@ -101,7 +101,7 @@
     {% block content %}
     {% endblock content %}
 
-    <div class="border-top">
+    <div class="border-top mt-3">
         <div class="container">
             <footer class="pt-4 my-md-5 pt-md-5">
                 <div class="row">
