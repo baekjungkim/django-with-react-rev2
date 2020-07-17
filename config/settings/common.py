@@ -13,20 +13,28 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from os.path import abspath, dirname
 
+import environ
+
+env = environ.Env()  # set default values and casting
+env.read_env(env.str("./", ".env"))
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "e**0*b=mig4v9!y3$_%m@d#f8nzc+cus+^=nzo302k_x*y^skb"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+ADMINS = [
+    ("Baekjung Kim", env("EMAIL_HOST_USER")),
+]
 
 
 # Application definition
@@ -134,3 +142,16 @@ MEDAI_ROOT = os.path.join(BASE_DIR, "media")
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+# Email with Send Grid
+# SENDGRID_API_KEY = env("SENDGRID_API_KEY")
+# EMAIL_HOST = "smtp.sendgrid.net"
+# EMAIL_HOST_USER = "apikey"  # this is exactly the value 'apikey'
+# EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

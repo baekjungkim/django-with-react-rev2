@@ -1,0 +1,1 @@
+{% if user.first_name %} {{ user.first_name }}{{ user.last_name }}{% else %} {{ user }} {% endif %} 님의 Instagram 가입을 환영합니다.
