@@ -88,7 +88,8 @@
                                 </svg>
                             </a>
                             <a class="p-2 text-dark" href="#">
-                                {% if user.firstname %}{{ user.first_name }}{% else%}{{ user.first_name }}{% endif %}
+                                <img src="{% url "pydenticon_image" user.username %}" alt="profile image"
+                                    style="width:24px; height: 24px">
                             </a>
                         </nav>
                         {% comment %} <a class="btn btn-outline-primary" href="#">Sign up</a> {% endcomment %}
