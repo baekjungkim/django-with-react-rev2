@@ -16,6 +16,10 @@
 </head>
 
 <body>
+
+    {% comment %} Message {% endcomment %}
+    {% bootstrap_messages %}
+
     <div class="border-bottom mb-3">
         <div class="container">
             <div class="row">
@@ -97,7 +101,7 @@
         </div>
     </div>
 
-    {% bootstrap_messages %}
+
     {% block content %}
     {% endblock content %}
 
