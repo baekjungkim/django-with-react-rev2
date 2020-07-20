@@ -1,4 +1,5 @@
 {% load static %}
+{% load bootstrap4 %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,13 +16,6 @@
 </head>
 
 <body>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endif %}
     <div class="border-bottom mb-3">
         <div class="container">
             <div class="row">
@@ -87,8 +81,13 @@
                                     </path>
                                 </svg>
                             </a>
-                            <a class="p-2 text-dark" href="#">
-                                {% if user.firstname %}{{ user.first_name }}{% else%}{{ user.first_name }}{% endif %}
+                            <a class="p-2 text-dark" href="{% url "profile_edit" %}">
+                                {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" alt="avatar" style="width:24px; height: 24px;">
+                                {% else %}
+                                <img src="{% url "pydenticon_image" user.username %}" alt="profile image"
+                                    style="width:24px; height: 24px;">
+                                {% endif %}
                             </a>
                         </nav>
                         {% comment %} <a class="btn btn-outline-primary" href="#">Sign up</a> {% endcomment %}
@@ -98,6 +97,7 @@
         </div>
     </div>
 
+    {% bootstrap_messages %}
     {% block content %}
     {% endblock content %}
 
