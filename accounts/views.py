@@ -10,8 +10,8 @@ from django.contrib.auth.views import (
 )
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from .forms import SignupForm, ProfileForm, PasswordChangeForm
 
+from .forms import PasswordChangeForm, ProfileForm, SignupForm
 
 login = LoginView.as_view(template_name="accounts/login_form.html")
 
