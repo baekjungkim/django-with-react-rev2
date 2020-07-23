@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.db import models
+from django.shortcuts import resolve_url
 from django.template.loader import render_to_string
 
 
@@ -24,6 +25,17 @@ class User(AbstractUser):
         help_text="48px * 48px 크기의 png/jpg 파일을 업로드 해주세요.",
         blank=True,
     )
+
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        else:
+            return resolve_url("pydenticon_image", self.username)
 
     def send_welcome_email(self):
         subject = render_to_string("accounts/welcome_email_subject.txt", {"user": self})

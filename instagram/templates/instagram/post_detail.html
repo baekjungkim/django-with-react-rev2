@@ -1,0 +1,27 @@
+{% extends "instagram/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7">
+            <figure class="figure">
+                <img src="{{post.photo.url}}" class="img-fluid rounded mx-auto d-block" style="width: 100%;" alt="">
+                <figcaption class="figure-caption">
+                    {% for tag in post.tag_set.all  %}
+                    <span class="badge badge-secondary">#{{tag.name}}</span>
+                    {% endfor %}
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col-sm">
+            <div class="media">
+                <img src="{{ user.avatar_url }}" alt="avatar" class="mr-3" style="width:32px; height: 32px;">
+                <div class="media-body">
+                    <h5 class="mt-0">{{user.name}}</h5>
+                    {{post.caption}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

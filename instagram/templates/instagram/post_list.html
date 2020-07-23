@@ -1,0 +1,60 @@
+{% extends "instagram/layout.html" %}
+{% load bootstrap4 %}
+
+{% block title %}
+Instagram / Post List
+{% endblock title %}
+
+{% block content %}
+
+{% comment %} <form action="" method="get">
+    <input type="text" name="query" value="{{q}}" />
+    <input type="submit" value="검색" />
+</form> {% endcomment %}
+
+<a href="{% url "instagram:post_new" %}" class="btn btn-primary btn-block mt-3 mb-3">새 포스팅</a>
+
+<table class="table table-bordered table-hover">
+    <tbody>
+        <thead>
+            <tr>
+                <th>NO.</th>
+                <th>Photo</th>
+                <th>Message</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        {% for post in post_list %}
+        <tr onClick="location.href='{{ post.get_absolute_url }}'">
+            <td>{{ post.id }}</td>
+            <td>
+                {% if post.photo %}
+                <img src={{ post.photo.url }} style="width: 75px;" />
+                {% else %}
+                No Photo
+                {% endif %}
+            </td>
+            <td>
+                {% comment %} <a href="{% url 'instagram:post_detail' post.pk %}"> {% endcomment %}
+                    {% comment %} URL Reverse Post Model 참조 {% endcomment %}
+                    <a href="{{ post.get_absolute_url }}">
+                        {{ post.message }}
+                    </a>
+                    {% comment %} </a> {% endcomment %}
+            </td>
+            <td>{{ post.author }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% comment %}
+{{ is_paginated }}
+{{ page_obj }}
+{% endcomment %}
+{% comment %} {% if is_paginated %}
+{% endif %} {% endcomment %}
+{% comment %} {% bootstrap_pagination page_obj size="small" justify_content="center" %} {% endcomment %}
+
+{% endblock content %}
