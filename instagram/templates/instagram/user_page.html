@@ -1,0 +1,32 @@
+{% extends "instagram/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row pt-5 pb-5">
+        <div class="col-sm-3" style="text-align: center;">
+            <img src="{{page_user.avatar_url}}" class="rounded-circle" style="width: 200px;"
+                alt="{{page_user.username}}">
+        </div>
+        <div class="col-sm-9">
+            {{page_user.username}}
+            {% if page_user == user %}
+            <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">Edit Profile</a>
+            {% endif %}
+            <hr />
+            0 posts, 0 followers, 0 followings
+            <hr />
+            {{page_user.name}}
+        </div>
+    </div>
+    <div class="row mt-5">
+        {% for post in post_list %}
+        <div class="col-sm-3">
+            <a href="{{ post.get_absolute_url }}">
+                <img src="{{post.photo.url}}" style="width: 100%" alt="{{post.caption}} ">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
