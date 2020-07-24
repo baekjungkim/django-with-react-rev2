@@ -4,3 +4,4 @@ django-bootstrap4
 django-environ
 pillow
 django-pydenticon
+easy-thumbnails

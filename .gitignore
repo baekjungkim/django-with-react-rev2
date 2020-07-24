@@ -141,3 +141,5 @@ static/
 media/
 .idea
 .vscode
+
+post/

@@ -1,4 +1,6 @@
 {% extends "instagram/layout.html" %}
+{% load thumbnail %}
+
 
 {% block content %}
 <div class="container">
@@ -13,16 +15,16 @@
             <a href="{% url "profile_edit" %}" class="btn btn-secondary btn-sm">Edit Profile</a>
             {% endif %}
             <hr />
-            0 posts, 0 followers, 0 followings
+            {{post_list_count}} posts, 0 followers, 0 followings
             <hr />
             {{page_user.name}}
         </div>
     </div>
     <div class="row mt-5">
         {% for post in post_list %}
-        <div class="col-sm-3">
+        <div class="col-sm-3 mb-3">
             <a href="{{ post.get_absolute_url }}">
-                <img src="{{post.photo.url}}" style="width: 100%" alt="{{post.caption}} ">
+                <img src="{% thumbnail post.photo 350x350 crop %}" style="width: 100%" alt="{{post.caption}} ">
             </a>
         </div>
         {% endfor %}
