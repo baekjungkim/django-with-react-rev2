@@ -1,0 +1,32 @@
+<div class="d-flex p-2 mb-3">
+    <div class="mr-3">
+        <img src="{{ user.avatar_url }}" alt="avatar" class="rounded-circle" style="width:48px; height: 48px;" />
+    </div>
+    <div>
+        {{user.username}}<br />
+        <small class="text-muted">{{user.name}}</small>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body text-muted">
+        <h6 class="card-title">Stories</h6>
+        Stories from people you follow will show up here.
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body text-muted">
+        <div class="row">
+            <div class="col-sm-7">
+                <h6 class="card-title">Suggestions for you </h6>
+            </div>
+            <div class="col-sm-5 text-right text-body">
+                See All
+            </div>
+        </div>
+        {% include 'instagram/timeline_sidebar_user_follow.html' with suggestions_user=user%}
+        {% include 'instagram/timeline_sidebar_user_follow.html' with suggestions_user=user%}
+        {% include 'instagram/timeline_sidebar_user_follow.html' with suggestions_user=user%}
+    </div>
+</div>

@@ -7,6 +7,10 @@ from .forms import PostForm
 from .models import Post
 
 
+def index(request):
+    return render(request, "instagram/index.html")
+
+
 @login_required
 def post_new(request):
     if request.method == "POST":
