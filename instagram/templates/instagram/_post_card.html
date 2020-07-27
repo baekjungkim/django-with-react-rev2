@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-header">
+        <img src="{{ post.author.avatar_url }}" alt="avatar" class="mr-2 rounded-circle"
+            style="width:32px; height: 32px;" alt="{{post.author.username}}">
+        {{ post.author.username }}
+    </div>
+    <div class="card-body">
+        <img src="{{ post.photo.url }}" alt="{{ post.caption }}" style="width: 100%;">
+    </div>
+    <div class="card-footer">
+        {% for tag in post.tag_set.all  %}
+        <span class="badge badge-secondary">#{{tag.name}}</span>
+        {% endfor %}
+    </div>
+</div>

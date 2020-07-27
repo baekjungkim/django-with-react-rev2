@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-sm-7">
             <figure class="figure">
-                <img src="{{post.photo.url}}" class="img-fluid rounded mx-auto d-block" style="width: 100%;" alt="">
+                <img src="{{post.photo.url}}" class="img-fluid rounded mx-auto d-block" style="width: 100%;"
+                    alt="{{post.caption}}">
                 <figcaption class="figure-caption">
                     {% for tag in post.tag_set.all  %}
                     <span class="badge badge-secondary">#{{tag.name}}</span>
@@ -17,7 +18,7 @@
             <div class="media">
                 <a href="{% url "instagram:user_page" post.author.username %}">
                     <img src="{{ post.author.avatar_url }}" alt="avatar" class="mr-3 rounded-circle"
-                        style="width:32px; height: 32px;">
+                        style="width:32px; height: 32px;" alt="{{post.author.username}}">
                 </a>
                 <div class="media-body">
                     <h5 class="mt-0">
