@@ -90,3 +90,21 @@ def user_page(request, username):
             "following": following,
         },
     )
+
+
+@login_required
+def post_like(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.like_user_set.add(request.user)
+    messages.success(request, f"{post}를 좋아합니다.")
+    redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
+    return redirect(redirect_url)
+
+
+@login_required
+def post_unlike(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.like_user_set.remove(request.user)
+    messages.success(request, f"{post}를 좋아요를 취소합니다.")
+    redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
+    return redirect(redirect_url)

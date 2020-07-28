@@ -29,10 +29,11 @@
             <hr />
             {{post_list_count}} posts, {{page_user.follower_set.all.count}} followers,
             {{following.count}} followings
+            {% comment %}
             <hr />
             {{page_user.follower_set.all}}
             <hr />
-            {{following.all}}
+            {{following.all}} {% endcomment %}
             <hr />
             {{page_user.name}}
         </div>
