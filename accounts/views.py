@@ -27,7 +27,7 @@ def signup(request):
             signed_user = form.save()
             auth_login(request, signed_user)
             messages.success(request, "회원가입 환영합니다.")
-            signed_user.send_welcome_email()  # FIXME: Celery로 처리하는것을 추천
+            # signed_user.send_welcome_email()  # FIXME: Celery로 처리하는것을 추천
             next_url = request.GET.get("next", "/")
             return redirect(next_url)
     else:
@@ -67,7 +67,7 @@ def user_follow(request, username):
     follow_user = get_object_or_404(get_user_model(), username=username, is_active=True)
 
     # request.user => following
-    request.user.following_set.add(follow_user)
+    # request.user.following_set.add(follow_user)
     # follow_user => follower
     follow_user.follower_set.add(request.user)
 
@@ -83,7 +83,7 @@ def user_unfollow(request, username):
     )
 
     # request.user => unfollowing
-    request.user.following_set.remove(unfollow_user)
+    # request.user.following_set.remove(unfollow_user)
     # follow_user => unfollower
     unfollow_user.follower_set.remove(request.user)
 

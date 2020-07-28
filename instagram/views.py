@@ -1,23 +1,30 @@
+from datetime import timedelta
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
 from .forms import PostForm
 from .models import Post
 
 
+@login_required
 def index(request):
-    post_list = Post.objects.all().filter(
-        Q(author=request.user) | Q(author__in=request.user.following_set.all())
-    )
+    timesince = timezone.now() - timedelta(days=3)
+    post_list = (
+        Post.objects.all()
+        .filter(Q(author=request.user) | Q(author__in=request.user.follower_set.all()))
+        .filter(created_at__gte=timesince)
+    )  # less than equal = lte, greater than equal = gte
 
     suggested_user_list = (
         get_user_model()
         .objects.all()
         .exclude(pk=request.user.pk)
-        .exclude(pk__in=request.user.following_set.all())[:3]
+        .exclude(pk__in=request.user.follower_set.all())[:3]
     )
 
     return render(
@@ -52,17 +59,26 @@ def post_detail(request, pk):
     return render(request, "instagram/post_detail.html", {"post": post,})
 
 
-def post_list(request):
-    post_list = Post.objects.all()
-
-    return render(request, "instagram/post_list.html", {"post_list": post_list})
-
-
 def user_page(request, username):
     page_user = get_object_or_404(get_user_model(), username=username, is_active=True)
+
     post_list = Post.objects.filter(author=page_user)
     post_list_count = post_list.count()  # 실제 DB에 count 쿼리를 던지게 된다.
     # len(post_list) # post_list를 메모리에 올린 후 메모리에서 갯수를 반환해준다.
+
+    is_follow = False
+    # Login 했다면
+    if request.user.is_authenticated:
+        is_follow = request.user.follower_set.filter(
+            pk=page_user.pk
+        ).exists()  # User객체, AnonymousUser
+
+    User = get_user_model()
+    following = User.objects.filter(follower_set=page_user)
+
+    # print("following: " + following)
+    # print("follower: " + request.user.follower_set)
+
     return render(
         request,
         "instagram/user_page.html",
@@ -70,5 +86,7 @@ def user_page(request, username):
             "page_user": page_user,
             "post_list": post_list,
             "post_list_count": post_list_count,
+            "is_follow": is_follow,
+            "following": following,
         },
     )

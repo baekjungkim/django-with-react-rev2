@@ -13,7 +13,7 @@ class User(AbstractUser):
         FEMALE = "F", "여성"
 
     follower_set = models.ManyToManyField("self", blank=True)
-    following_set = models.ManyToManyField("self", blank=True)
+    # following_set = models.ManyToManyField("self", blank=True)
 
     website_url = models.URLField(blank=True)
     bio = models.TextField(blank=True)
