@@ -1,6 +1,6 @@
 {% extends "instagram/layout.html" %}
 
-{% load instagram_tags %}
+{% load instagram_tags humanize %}
 
 {% block content %}
 <div class="container">
@@ -17,7 +17,7 @@
             </figure>
         </div>
         <div class="col-sm">
-            <div class="media h-75">
+            <div class="media">
                 <a href="{% url "instagram:user_page" post.author.username %}">
                     <img src="{{ post.author.avatar_url }}" alt="avatar" class="mr-3 rounded-circle"
                         style="width:32px; height: 32px;" alt="{{post.author.username}}">
@@ -31,6 +31,24 @@
                     {{post.caption}}
                 </div>
             </div>
+            <hr />
+            {% for comment in post.comment_set.all %}
+            <div class="media mb-3">
+                <a href="{% url "instagram:user_page" comment.author.username %}">
+                    <img src="{{ comment.author.avatar_url }}" alt="avatar" class="mr-3 rounded-circle"
+                        style="width:32px; height: 32px;" alt="{{comment.author.username}}">
+                </a>
+                <div class="media-body">
+                    <a href="{% url "instagram:user_page" comment.author.username %}">
+                        {{comment.author.username}}
+                    </a>
+                    {{comment.message}}
+                    <small class="text-muted">
+                        {{comment.created_at|naturaltime}}
+                    </small>
+                </div>
+            </div>
+            {% endfor %}
             <hr />
             <div class="media">
                 {% if post|is_like_user:user %}
@@ -51,6 +69,9 @@
                 </a>
                 {% endif %}
             </div>
+            <hr />
+
+            {% include "instagram/comment_form.html" %}
         </div>
     </div>
 </div>
