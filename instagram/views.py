@@ -136,6 +136,9 @@ def comment_new(request, post_pk):
 
             messages.success(request, "댓글을 저장했습니다.")
             redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
+
+            if request.is_ajax():
+                return render(request, "instagram/_comment.html", {"comment": comment})
             return redirect(redirect_url)
         else:
             messages.warning(request, "댓글 입력후 등록해주세요.")

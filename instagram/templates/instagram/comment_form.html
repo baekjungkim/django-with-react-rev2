@@ -1,9 +1,28 @@
 {% load bootstrap4 %}
 
 <div class="form-group">
-    <form action="{% url "instagram:comment_new" post.pk%}" method="POST">
+    <form id="post-{{ post.pk }}-comment-form" action="{% url "instagram:comment_new" post.pk%}" method="POST">
         {% csrf_token %}
-        {% bootstrap_form comment_form%}
+        <textarea name="message" cols="40" rows="3" class="form-control mb-3" placeholder="댓글을 입력하세요." title=""
+            required=""></textarea>
         <input type="submit" class="btn btn-primary float-right" value="댓글 쓰기">
     </form>
 </div>
+
+<script>
+    $(function() {
+        var form_id = "post-{{ post.pk }}-comment-form";
+        $("#" + form_id).submit(function(e) {
+            e.preventDefault();
+
+            var options = {
+                success: function(responseText, statusText, xhr, $form) {
+                    $("#post-{{ post.pk }}-comment-list").prepend(responseText)
+                }
+            };
+
+            $(this).ajaxSubmit(options);
+            $("#" + form_id + "> textarea").val("");
+        })
+    })
+</script>

@@ -1,0 +1,17 @@
+{% load humanize %}
+
+<div class="media mb-3">
+    <a href="{% url "instagram:user_page" comment.author.username %}">
+        <img src="{{ comment.author.avatar_url }}" alt="avatar" class="mr-3 rounded-circle"
+            style="width:32px; height: 32px;" alt="{{comment.author.username}}">
+    </a>
+    <div class="media-body">
+        <a href="{% url "instagram:user_page" comment.author.username %}">
+            {{comment.author.username}}
+        </a>
+        {{comment.message}}
+        <small class="text-muted">
+            {{comment.created_at|naturaltime}}
+        </small>
+    </div>
+</div>
