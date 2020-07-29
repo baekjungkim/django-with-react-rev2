@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from appdirs import user_cache_dir
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -7,8 +8,8 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .forms import PostForm
-from .models import Post
+from .forms import CommentForm, PostForm
+from .models import Post, Comment
 
 
 @login_required
@@ -108,3 +109,24 @@ def post_unlike(request, pk):
     messages.success(request, f"{post}를 좋아요를 취소합니다.")
     redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
     return redirect(redirect_url)
+
+
+@login_required
+def comment_new(request, post_pk):
+    post = get_object_or_404(Post, id=post_pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+
+            messages.success(request, "댓글을 저장했습니다.")
+            redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
+            return redirect(redirect_url)
+        else:
+            messages.warning(request, "댓글 입력후 등록해주세요.")
+            redirect_url = request.META.get("HTTP_REFERER", "instagram:index")
+            return redirect(redirect_url)
+
